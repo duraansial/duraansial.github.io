@@ -108,7 +108,7 @@
             <div class="mb-10">
                 <h2 class="text-3xl font-semibold text-gray-900 mb-4">Preventing Patients without Claims being added</h2>
                 <p class="text-gray-600 leading-relaxed mb-4">
-                    We wanted to prevent a patient from being inserted without a claim, but my original approach of using a trigger created circular logic. I learned that in real-world scenarios, this business rule is typically handled by the application's logic. Despite the flaw, it was a valuable exercise to understand the practical use of triggers.
+                    I wanted to prevent a patient from being inserted without a claim, but my original approach of using a trigger created circular logic. I learned that in real-world scenarios, this business rule is typically handled by the application's logic. Despite the flaw, it was a valuable exercise to understand the practical use of triggers.
                 </p>
                 <h3 class="text-2xl font-semibold text-gray-900 mb-2">Flawed Trigger Logic</h3>
                 <pre><code>DELIMITER $$
@@ -201,7 +201,7 @@ GROUP BY provider_specialty, provider_state;</code></pre>
                     </table>
                 </div>
                 <p class="text-gray-600 mb-4"><strong>Summary:</strong></p>
-                <p class="text-gray-600">The data shows a hierarchical view, breaking down prescription counts by state within each specialty. Oncology providers across all states make up the majority of prescriptions. We can also note that Internal Medicine is underrepresented, potentially indicating a lack of need in this area or a potential new area for finding patients.</p>
+                <p class="text-gray-600">The data shows a hierarchical view, breaking down prescription counts by state within each specialty. Oncology providers across all states make up the majority of prescriptions. you can also note that Internal Medicine is underrepresented, potentially indicating a lack of need in this area or a potential new area for finding patients.</p>
                 <p class="text-gray-600 mt-4"><strong>Data Visualization & Presentation:</strong></p>
             </div>
 
@@ -229,7 +229,7 @@ ORDER BY patient_count DESC;</code></pre>
                     </table>
                 </div>
                 <p class="text-gray-600 mb-4"><strong>Summary:</strong></p>
-                <p class="text-gray-600">The data shows a gender distribution of 5 Males : 2 Females. By grouping ages, we can extrapolate that female patients are typically prescribed DrugX at older ages (51, 71), while male patients are prescribed between 45-68.</p>
+                <p class="text-gray-600">The data shows a gender distribution of 5 Males : 2 Females. By grouping ages, I can extrapolate that female patients are typically prescribed DrugX at older ages (51, 71), while male patients are prescribed between 45-68.</p>
                 <p class="text-gray-600 mt-4"><strong>Data Visualization & Presentation:</strong></p>
                 <img src="https://i.imgur.com/nvI2gxJ.png" alt="Your Photo" class="w-full h-full object-cover object-center">
             </div>
