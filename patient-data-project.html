@@ -189,15 +189,17 @@ FROM providers JOIN prescriptions ON prescriptions.provider_id = providers.id
 WHERE drug_name = 'DrugX'
 GROUP BY provider_specialty, provider_state;</code></pre>
                 <p class="text-gray-600 mb-2 mt-4"><strong>Data Output:</strong></p>
-                <table class="mb-4">
-                    <thead><tr><th>provider_specialty</th><th>provider_state</th><th>prescriptions_count</th><th>drug_name</th></tr></thead>
-                    <tbody>
-                        <tr><td>Oncology</td><td>CA</td><td>3</td><td>DrugX</td></tr>
-                        <tr><td>Oncology</td><td>TX</td><td>2</td><td>DrugX</td></tr>
-                        <tr><td>Internal Medicine</td><td>CA</td><td>1</td><td>DrugX</td></tr>
-                        <tr><td>Oncology</td><td>MA</td><td>1</td><td>DrugX</td></tr>
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full mb-4">
+                        <thead><tr><th>provider_specialty</th><th>provider_state</th><th>prescriptions_count</th><th>drug_name</th></tr></thead>
+                        <tbody>
+                            <tr><td>Oncology</td><td>CA</td><td>3</td><td>DrugX</td></tr>
+                            <tr><td>Oncology</td><td>TX</td><td>2</td><td>DrugX</td></tr>
+                            <tr><td>Internal Medicine</td><td>CA</td><td>1</td><td>DrugX</td></tr>
+                            <tr><td>Oncology</td><td>MA</td><td>1</td><td>DrugX</td></tr>
+                        </tbody>
+                    </table>
+                </div>
                 <p class="text-gray-600 mb-4"><strong>Summary:</strong></p>
                 <p class="text-gray-600">The data shows a hierarchical view, breaking down prescription counts by state within each specialty. Oncology providers across all states make up the majority of prescriptions. We can also note that Internal Medicine is underrepresented, potentially indicating a lack of need in this area or a potential new area for finding patients.</p>
                 <p class="text-gray-600 mt-4"><strong>Data Visualization & Presentation:</strong></p>
@@ -213,17 +215,19 @@ WHERE drug_name = 'DrugX'
 GROUP BY patient_gender , patient_age
 ORDER BY patient_count DESC;</code></pre>
                 <p class="text-gray-600 mb-2 mt-4"><strong>Data Output:</strong></p>
-                <table class="mb-4">
-                    <thead><tr><th>patient_age</th><th>patient_gender</th><th>drug_name</th><th>patient_count</th></tr></thead>
-                    <tbody>
-                        <tr><td>55</td><td>Male</td><td>DrugX</td><td>2</td></tr>
-                        <tr><td>48</td><td>Male</td><td>DrugX</td><td>1</td></tr>
-                        <tr><td>71</td><td>Female</td><td>DrugX</td><td>1</td></tr>
-                        <tr><td>68</td><td>Male</td><td>DrugX</td><td>1</td></tr>
-                        <tr><td>51</td><td>Female</td><td>DrugX</td><td>1</td></tr>
-                        <tr><td>45</td><td>Male</td><td>DrugX</td><td>1</td></tr>
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full mb-4">
+                        <thead><tr><th>patient_age</th><th>patient_gender</th><th>drug_name</th><th>patient_count</th></tr></thead>
+                        <tbody>
+                            <tr><td>55</td><td>Male</td><td>DrugX</td><td>2</td></tr>
+                            <tr><td>48</td><td>Male</td><td>DrugX</td><td>1</td></tr>
+                            <tr><td>71</td><td>Female</td><td>DrugX</td><td>1</td></tr>
+                            <tr><td>68</td><td>Male</td><td>DrugX</td><td>1</td></tr>
+                            <tr><td>51</td><td>Female</td><td>DrugX</td><td>1</td></tr>
+                            <tr><td>45</td><td>Male</td><td>DrugX</td><td>1</td></tr>
+                        </tbody>
+                    </table>
+                </div>
                 <p class="text-gray-600 mb-4"><strong>Summary:</strong></p>
                 <p class="text-gray-600">The data shows a gender distribution of 5 Males : 2 Females. By grouping ages, we can extrapolate that female patients are typically prescribed DrugX at older ages (51, 71), while male patients are prescribed between 45-68.</p>
                 <p class="text-gray-600 mt-4"><strong>Data Visualization & Presentation:</strong></p>
@@ -239,12 +243,14 @@ WHERE drug_name IN ('DrugX' , 'DrugY', 'DrugZ')
 GROUP BY provider_id , patient_id
 HAVING COUNT(DISTINCT drug_name) > 1;</code></pre>
                 <p class="text-gray-600 mb-2 mt-4"><strong>Data Output:</strong></p>
-                <table class="mb-4">
-                    <thead><tr><th>Provider ID</th><th>Patient ID</th><th>Prescribed Drugs</th></tr></thead>
-                    <tbody>
-                        <tr><td>101</td><td>1</td><td>DrugX, DrugY</td></tr>
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full mb-4">
+                        <thead><tr><th>Provider ID</th><th>Patient ID</th><th>Prescribed Drugs</th></tr></thead>
+                        <tbody>
+                            <tr><td>101</td><td>1</td><td>DrugX, DrugY</td></tr>
+                        </tbody>
+                    </table>
+                </div>
                 <p class="text-gray-600 mb-4"><strong>Summary:</strong></p>
                 <p class="text-gray-600">In our case, a single provider (provider_id = 101) had prescribed both DrugX and DrugY to the same patient (patient_id = 1).</p>
                 <p class="text-gray-600 mt-4"><strong>Data Visualization & Presentation:</strong></p>
@@ -282,5 +288,6 @@ HAVING COUNT(DISTINCT drug_name) > 1;</code></pre>
     </script>
 </body>
 </html>
+
 
 
