@@ -1,42 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Claims Analysis Project</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; @apply bg-gray-50 text-gray-800; }
-        pre { @apply bg-gray-100 rounded-lg p-4 text-sm text-gray-800 overflow-x-auto; }
-        table { @apply w-full text-left table-auto border-collapse; }
-        th, td { @apply px-4 py-2 border border-gray-300; }
-        thead { @apply bg-gray-200 font-bold; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duraan Sial - Patient Claims Analysis Project</title>
+    <!-- Load Tailwind CSS from CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font for a clean, modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Apply Inter font globally and set a default background/text color */
+        body {
+            font-family: 'Inter', sans-serif;
+            @apply bg-gray-50 text-gray-800;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* Style for code blocks */
+        pre {
+            @apply bg-gray-800 text-white p-4 rounded-lg overflow-x-auto text-sm;
+        }
+        code {
+            font-family: 'Fira Code', 'monospace'; /* A monospace font for code */
+        }
+        table {
+            @apply w-full text-left table-auto border-collapse;
+        }
+        th, td {
+            @apply px-4 py-2 border border-gray-300;
+        }
+        thead {
+            @apply bg-gray-200 font-bold text-gray-900;
+        }
+    </style>
 </head>
-<body class="min-h-screen flex flex-col">
-    <header class="bg-white shadow-md py-4 mb-8">
-        <nav class="container mx-auto px-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold text-orange-600 rounded-md p-2 hover:bg-orange-50 transition duration-300">Duraan Olomi</a>
-        </nav>
-    </header>
+<body class="flex flex-col min-h-screen">
 
-    <main class="flex-grow container mx-auto px-4 py-8">
-        <h1 class="text-4xl font-extrabold text-gray-900 mb-6">Patient Claims Analysis: SQL to PPT</h1>
-        <p class="text-lg text-gray-700 mb-8">This project demonstrates a full data analysis lifecycle, from translating business questions into SQL queries to presenting key insights in a professional format. Using a simulated patient claims dataset, I perform a provider and demographic analysis for a pharmaceutical client, showcasing skills in SQL, Excel, and data visualization in PowerPoint.</p>
+    <!-- Header Section: Navigation Bar (consistent with main page) -->
+    <header class="bg-white shadow-md py-4">
+        <nav class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-orange-600 rounded-md p-2 hover:bg-orange-50 transition duration-300">Duraan Olomi</a>
+            <ul class="flex space-x-6">
+                <li><a href="index.html#about" class="text-gray-700 hover:text-orange-600 font-medium rounded-md p-2 hover:bg-gray-100 transition duration-300">About</a></li>
+                <li><a href="index.html#publications" class="text-gray-700 hover:text-orange-600 font-medium rounded-md p-2 hover:bg-gray-100 transition duration-300">Publications</a></li>
+                <li><a href="index.html#projects" class="text-gray-700 hover:text-orange-600 font-medium rounded-md p-2 hover:bg-gray-100 transition duration-300">Projects</a></li>
+                <li><a href="index.html#contact" class="text-gray-700 hover:text-orange-600 font-medium rounded-md p-2 hover:bg-gray-100 transition duration-300">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <!-- Project Content -->
-        <section class="space-y-8">
-            <div>
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Creating Tables</h2>
-                <pre class="mb-4"><code>CREATE TABLE patient (
+    <!-- Main Content Area for Project Details -->
+    <main class="flex-grow container mx-auto px-4 py-12">
+        <div class="bg-white rounded-lg shadow-lg p-8 md:p-12">
+            <h1 class="text-4xl font-bold text-center text-gray-900 mb-6">Patient Claims Analysis: SQL to PPT</h1>
+            <p class="text-lg text-gray-700 text-center mb-10">This project demonstrates a full data analysis lifecycle, from translating business questions into SQL queries to presenting key insights in a professional format. Using a simulated patient claims dataset, I perform a provider and demographic analysis for a pharmaceutical client, showcasing skills in SQL, Excel, and data visualization in PowerPoint.</p>
+
+            <div class="mb-10">
+                <h2 class="text-3xl font-semibold text-gray-900 mb-4">Creating Tables</h2>
+                <pre><code class="language-sql">CREATE TABLE patient (
   id INT PRIMARY KEY AUTO_INCREMENT,
   patient_name varchar(150) not null,
   patient_age INT not null,
   patient_gender CHAR(7),
   patient_state CHAR(2)
 );</code></pre>
-                <pre class="mb-4"><code>CREATE TABLE provider (
+                <pre class="mt-4"><code class="language-sql">CREATE TABLE provider (
   id INT PRIMARY KEY AUTO_INCREMENT,
   provider_fname VARCHAR(15) NOT NULL,
   provider_lname VARCHAR(150) NOT NULL,
@@ -44,7 +85,7 @@
   provider_state VARCHAR(150) NOT NULL,
   provider_email VARCHAR(200) UNIQUE
 );</code></pre>
-                <pre class="mb-4"><code>CREATE TABLE claims (
+                <pre class="mt-4"><code class="language-sql">CREATE TABLE claims (
   id INT PRIMARY KEY NOT NULL,
   patient_id INT NOT NULL,
   FOREIGN KEY (patient_id) REFERENCES patients (id),
@@ -53,7 +94,7 @@
   provider_id INT NOT NULL,
   FOREIGN KEY (provider_id) REFERENCES providers (id)
 );</code></pre>
-                <pre><code>CREATE TABLE prescriptions (
+                <pre class="mt-4"><code>CREATE TABLE prescriptions (
   id INT PRIMARY KEY NOT NULL,
   patient_id INT NOT NULL,
   FOREIGN KEY (patient_id) REFERENCES patients (id),
@@ -62,13 +103,15 @@
   date_of_dispensing DATETIME NOT NULL,
   drug_name VARCHAR(255) NOT NULL
 );</code></pre>
-            </div>
+            </div>
 
-            <div>
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Preventing Patients without Claims being added</h2>
-                <p class="text-gray-700 mb-4">We wanted to prevent a patient from being inserted without a claim, but my original approach of using a trigger created circular logic. I learned that in real-world scenarios, this business rule is typically handled by the application's logic. Despite the flaw, it was a valuable exercise to understand the practical use of triggers.</p>
-                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Flawed Trigger Logic</h3>
-                <pre><code>DELIMITER $$
+            <div class="mb-10">
+                <h2 class="text-3xl font-semibold text-gray-900 mb-4">Preventing Patients without Claims being added</h2>
+                <p class="text-gray-600 leading-relaxed mb-4">
+                    We wanted to prevent a patient from being inserted without a claim, but my original approach of using a trigger created circular logic. I learned that in real-world scenarios, this business rule is typically handled by the application's logic. Despite the flaw, it was a valuable exercise to understand the practical use of triggers.
+                </p>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-2">Flawed Trigger Logic</h3>
+                <pre><code>DELIMITER $$
 CREATE TRIGGER enforce_patient_has_claim_before
 BEFORE INSERT ON patients
 FOR EACH ROW
@@ -83,12 +126,12 @@ BEGIN
   END IF;
 END $$
 DELIMITER ;</code></pre>
-            </div>
-            
-            <div>
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Inserting Data</h2>
-                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Patients</h3>
-                <pre><code>INSERT INTO patients (id, patient_name, patient_age, patient_gender, patient_state)
+            </div>
+            
+            <div class="mb-10">
+                <h2 class="text-3xl font-semibold text-gray-900 mb-4">Inserting Data</h2>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-2">Patients</h3>
+                <pre><code class="language-sql">INSERT INTO patients (id, patient_name, patient_age, patient_gender, patient_state)
 VALUES
 (1, 'John Smith', 55, 'Male', 'CA'),
 (2, 'Jane Doe', 62, 'Female', 'NY'),
@@ -99,8 +142,8 @@ VALUES
 (7, 'Mark Wilson', 68, 'Male', 'MA'),
 (8, 'Jessica Brown', 51, 'Female', 'CA'),
 (9, 'Chris Evans', 45, 'Male', 'TX');</code></pre>
-                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Providers</h3>
-                <pre><code>INSERT INTO providers (id, provider_fname,provider_lname, provider_specialty, provider_state, provider_email)
+                <h3 class="text-2xl font-semibold text-gray-900 mt-4 mb-2">Providers</h3>
+                <pre><code class="language-sql">INSERT INTO providers (id, provider_fname,provider_lname, provider_specialty, provider_state, provider_email)
 VALUES
 (101, 'Don', 'Dandy', 'Oncology', 'CA', 'smith@a.com'),
 (102, 'Chad','Chumpal', 'Cardiology', 'NY', 'doe@b.com'),
@@ -108,8 +151,8 @@ VALUES
 (104, 'James','Jones', 'Internal Medicine', 'CA', 'jones@d.com'),
 (105, 'Chelsea','Chen', 'Family Medicine', 'FL', 'chen@e.com'),
 (106, 'Wilma' ,'Williams', 'Oncology', 'MA', 'williams@f.com');</code></pre>
-                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Claims</h3>
-                <pre><code>INSERT INTO claims (id, patient_id, provider_id, date_of_service, procedure_code)
+                <h3 class="text-2xl font-semibold text-gray-900 mt-4 mb-2">Claims</h3>
+                <pre><code class="language-sql">INSERT INTO claims (id, patient_id, provider_id, date_of_service, procedure_code)
 VALUES
 (1001, 1, 101, '2025-01-15', '99214'),
 (1002, 2, 102, '2025-01-16', '99214'),
@@ -121,8 +164,8 @@ VALUES
 (1008, 7, 106, '2025-03-10', '99214'),
 (1009, 8, 101, '2025-03-15', '99214'),
 (1010, 9, 103, '2025-03-20', '99213');</code></pre>
-                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Prescriptions</h3>
-                <pre><code>INSERT INTO prescriptions (id, patient_id, provider_id, date_of_dispensing, drug_name)
+                <h3 class="text-2xl font-semibold text-gray-900 mt-4 mb-2">Prescriptions</h3>
+                <pre><code class="language-sql">INSERT INTO prescriptions (id, patient_id, provider_id, date_of_dispensing, drug_name)
 VALUES
 (1, 1, 101, '2025-01-15', 'DrugX'),
 (2, 2, 102, '2025-01-16', 'DrugY'),
@@ -134,96 +177,110 @@ VALUES
 (8, 7, 106, '2025-03-10', 'DrugX'),
 (9, 8, 101, '2025-03-15', 'DrugX'),
 (10, 9, 103, '2025-03-20', 'DrugX');</code></pre>
-            </div>
+            </div>
 
-            <div>
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Business Questions & Analysis</h2>
-                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Prescription Volume by Specialty</h3>
-                <p class="mb-2"><strong>Question:</strong> "Which provider specialties are prescribing the most of DrugX and in which states are they located? Are there any specialties that are under-represented?”</p>
-                <p class="mb-2"><strong>Query:</strong></p>
-                <pre class="mb-2"><code>SELECT provider_specialty, provider_state, COUNT(*) AS prescriptions_count, drug_name
+            <div class="mb-10">
+                <h2 class="text-3xl font-semibold text-gray-900 mb-4">Business Questions & Analysis</h2>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-2">Prescription Volume by Specialty</h3>
+                <p class="text-gray-600 mb-2"><strong>Question:</strong> "Which provider specialties are prescribing the most of DrugX and in which states are they located? Are there any specialties that are under-represented?”</p>
+                <p class="text-gray-600 mb-2"><strong>Query:</strong></p>
+                <pre><code class="language-sql">SELECT provider_specialty, provider_state, COUNT(*) AS prescriptions_count, drug_name
 FROM providers JOIN prescriptions ON prescriptions.provider_id = providers.id
 WHERE drug_name = 'DrugX'
 GROUP BY provider_specialty, provider_state;</code></pre>
-                <p class="mb-2"><strong>Data Output:</strong></p>
-                <table class="mb-4">
-                    <thead><tr><th>provider_specialty</th><th>provider_state</th><th>prescriptions_count</th><th>drug_name</th></tr></thead>
-                    <tbody>
-                        <tr><td>Oncology</td><td>CA</td><td>3</td><td>DrugX</td></tr>
-                        <tr><td>Oncology</td><td>TX</td><td>2</td><td>DrugX</td></tr>
-                        <tr><td>Internal Medicine</td><td>CA</td><td>1</td><td>DrugX</td></tr>
-                        <tr><td>Oncology</td><td>MA</td><td>1</td><td>DrugX</td></tr>
-                    </tbody>
-                </table>
-                <p class="mb-4"><strong>Summary:</strong></p>
-                <p class="text-gray-700">The data shows a hierarchical view, breaking down prescription counts by state within each specialty. Oncology providers across all states make up the majority of prescriptions. We can also note that Internal Medicine is underrepresented, potentially indicating a lack of need in this area or a potential new area for finding patients.</p>
-                <p class="mt-4"><strong>Data Visualization & Presentation:</strong></p>
-            </div>
+                <p class="text-gray-600 mb-2 mt-4"><strong>Data Output:</strong></p>
+                <table class="mb-4">
+                    <thead><tr><th>provider_specialty</th><th>provider_state</th><th>prescriptions_count</th><th>drug_name</th></tr></thead>
+                    <tbody>
+                        <tr><td>Oncology</td><td>CA</td><td>3</td><td>DrugX</td></tr>
+                        <tr><td>Oncology</td><td>TX</td><td>2</td><td>DrugX</td></tr>
+                        <tr><td>Internal Medicine</td><td>CA</td><td>1</td><td>DrugX</td></tr>
+                        <tr><td>Oncology</td><td>MA</td><td>1</td><td>DrugX</td></tr>
+                    </tbody>
+                </table>
+                <p class="text-gray-600 mb-4"><strong>Summary:</strong></p>
+                <p class="text-gray-600">The data shows a hierarchical view, breaking down prescription counts by state within each specialty. Oncology providers across all states make up the majority of prescriptions. We can also note that Internal Medicine is underrepresented, potentially indicating a lack of need in this area or a potential new area for finding patients.</p>
+                <p class="text-gray-600 mt-4"><strong>Data Visualization & Presentation:</strong></p>
+            </div>
 
-            <div>
-                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Patient Demographics for DrugX</h3>
-                <p class="mb-2"><strong>Question:</strong> "What is the age and gender distribution of patients receiving DrugX? Are there any demographic trends we can identify?”</p>
-                <p class="mb-2"><strong>Query:</strong></p>
-                <pre class="mb-2"><code>SELECT patient_age, patient_gender, prescriptions.drug_name, COUNT(*) AS patient_count
+            <div class="mb-10">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-2">Patient Demographics for DrugX</h3>
+                <p class="text-gray-600 mb-2"><strong>Question:</strong> "What is the age and gender distribution of patients receiving DrugX? Are there any demographic trends we can identify?”</p>
+                <p class="text-gray-600 mb-2"><strong>Query:</strong></p>
+                <pre><code class="language-sql">SELECT patient_age, patient_gender, prescriptions.drug_name, COUNT(*) AS patient_count
 FROM patients JOIN prescriptions ON patients.id = prescriptions.patient_id
 WHERE drug_name = 'DrugX'
 GROUP BY patient_gender , patient_age
 ORDER BY patient_count DESC;</code></pre>
-                <p class="mb-2"><strong>Data Output:</strong></p>
-                <table class="mb-4">
-                    <thead><tr><th>patient_age</th><th>patient_gender</th><th>drug_name</th><th>patient_count</th></tr></thead>
-                    <tbody>
-                        <tr><td>55</td><td>Male</td><td>DrugX</td><td>2</td></tr>
-                        <tr><td>48</td><td>Male</td><td>DrugX</td><td>1</td></tr>
-                        <tr><td>71</td><td>Female</td><td>DrugX</td><td>1</td></tr>
-                        <tr><td>68</td><td>Male</td><td>DrugX</td><td>1</td></tr>
-                        <tr><td>51</td><td>Female</td><td>DrugX</td><td>1</td></tr>
-                        <tr><td>45</td><td>Male</td><td>DrugX</td><td>1</td></tr>
-                    </tbody>
-                </table>
-                <p class="mb-4"><strong>Summary:</strong></p>
-                <p class="text-gray-700">The data shows a gender distribution of 5 Males : 2 Females. By grouping ages, we can extrapolate that female patients are typically prescribed DrugX at older ages (51, 71), while male patients are prescribed between 45-68.</p>
-                <p class="mt-4"><strong>Data Visualization & Presentation:</strong></p>
-            </div>
+                <p class="text-gray-600 mb-2 mt-4"><strong>Data Output:</strong></p>
+                <table class="mb-4">
+                    <thead><tr><th>patient_age</th><th>patient_gender</th><th>drug_name</th><th>patient_count</th></tr></thead>
+                    <tbody>
+                        <tr><td>55</td><td>Male</td><td>DrugX</td><td>2</td></tr>
+                        <tr><td>48</td><td>Male</td><td>DrugX</td><td>1</td></tr>
+                        <tr><td>71</td><td>Female</td><td>DrugX</td><td>1</td></tr>
+                        <tr><td>68</td><td>Male</td><td>DrugX</td><td>1</td></tr>
+                        <tr><td>51</td><td>Female</td><td>DrugX</td><td>1</td></tr>
+                        <tr><td>45</td><td>Male</td><td>DrugX</td><td>1</td></tr>
+                    </tbody>
+                </table>
+                <p class="text-gray-600 mb-4"><strong>Summary:</strong></p>
+                <p class="text-gray-600">The data shows a gender distribution of 5 Males : 2 Females. By grouping ages, we can extrapolate that female patients are typically prescribed DrugX at older ages (51, 71), while male patients are prescribed between 45-68.</p>
+                <p class="text-gray-600 mt-4"><strong>Data Visualization & Presentation:</strong></p>
+            </div>
 
-            <div>
-                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Cross-Prescribing Analysis</h3>
-                <p class="mb-2"><strong>Question:</strong> "Are there any providers who prescribe DrugX and another drug (DrugY or DrugZ) to the same patient? How common is this cross-prescribing?”</p>
-                <p class="mb-2"><strong>Query:</strong></p>
-                <pre class="mb-2"><code>SELECT provider_id, patient_id, GROUP_CONCAT(DISTINCT drug_name) AS prescribed_drugs
+            <div class="mb-10">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-2">Cross-Prescribing Analysis</h3>
+                <p class="text-gray-600 mb-2"><strong>Question:</strong> "Are there any providers who prescribe DrugX and another drug (DrugY or DrugZ) to the same patient? How common is this cross-prescribing?”</p>
+                <p class="text-gray-600 mb-2"><strong>Query:</strong></p>
+                <pre><code class="language-sql">SELECT provider_id, patient_id, GROUP_CONCAT(DISTINCT drug_name) AS prescribed_drugs
 FROM prescriptions
 WHERE drug_name IN ('DrugX' , 'DrugY', 'DrugZ')
 GROUP BY provider_id , patient_id
 HAVING COUNT(DISTINCT drug_name) > 1;</code></pre>
-                <p class="mb-2"><strong>Data Output:</strong></p>
-                <table class="mb-4">
-                    <thead><tr><th>Provider ID</th><th>Patient ID</th><th>Prescribed Drugs</th></tr></thead>
-                    <tbody>
-                        <tr><td>101</td><td>1</td><td>DrugX, DrugY</td></tr>
-                    </tbody>
-                </table>
-                <p class="mb-4"><strong>Summary:</strong></p>
-                <p class="text-gray-700">In our case, a single provider (provider_id = 101) had prescribed both DrugX and DrugY to the same patient (patient_id = 1).</p>
-                <p class="mt-4"><strong>Data Visualization & Presentation:</strong></p>
-            </div>
-        </section>
+                <p class="text-gray-600 mb-2 mt-4"><strong>Data Output:</strong></p>
+                <table class="mb-4">
+                    <thead><tr><th>Provider ID</th><th>Patient ID</th><th>Prescribed Drugs</th></tr></thead>
+                    <tbody>
+                        <tr><td>101</td><td>1</td><td>DrugX, DrugY</td></tr>
+                    </tbody>
+                </table>
+                <p class="text-gray-600 mb-4"><strong>Summary:</strong></p>
+                <p class="text-gray-600">In our case, a single provider (provider_id = 101) had prescribed both DrugX and DrugY to the same patient (patient_id = 1).</p>
+                <p class="text-gray-600 mt-4"><strong>Data Visualization & Presentation:</strong></p>
+            </div>
 
-        <div class="mt-8">
-            <p class="text-center text-lg font-bold">Presentation Link:</p>
-            <p class="text-center"><a href="https://docs.google.com/presentation/d/1ZzNfWl_zgUIvxtSSANzHm2qHL-pwxHKP/edit?usp=sharing&ouid=114694891968949643726&rtpof=true&sd=true" target="_blank" class="text-orange-600 hover:text-orange-800 underline">View Full Presentation</a></p>
-        </div>
+            <div class="mb-10 text-center">
+                <h2 class="text-3xl font-semibold text-gray-900 mb-4">Presentation Link</h2>
+                <p class="text-lg text-gray-700 mb-6">You can view the full presentation for this project below.</p>
+                <a href="https://docs.google.com/presentation/d/1ZzNfWl_zgUIvxtSSANzHm2qHL-pwxHKP/edit?usp=sharing&ouid=114694891968949643726&rtpof=true&sd=true" target="_blank" class="bg-orange-600 text-white hover:bg-orange-700 font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105 inline-flex items-center">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17.25v-4.5m0 4.5h3m-3 0l-1.5 1.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    View Presentation
+                </a>
+            </div>
+        </div>
+    </main>
 
-    </main>
+    <!-- Back to Projects Button -->
+    <div class="text-center mt-12 mb-12">
+        <a href="index.html#projects" class="bg-gray-800 text-white hover:bg-gray-900 font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105 inline-flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Back to Projects
+        </a>
+    </div>
 
-    <footer class="bg-gray-900 text-white py-6 mt-12 rounded-t-lg shadow-inner">
-        <div class="container mx-auto px-4 text-center">
-            <p>&copy; <span id="current-year"></span> Duraan Sial. All rights reserved.</p>
-        </div>
-    </footer>
+    <!-- Footer Section (consistent with main page) -->
+    <footer class="bg-gray-900 text-white py-6 mt-12 rounded-t-lg shadow-inner">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; <span id="current-year"></span> Duraan Sial. All rights reserved.</p>
+        </div>
+    </footer>
 
-    <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-    </script>
+    <script>
+        // Dynamically set the current year in the footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
+
 
