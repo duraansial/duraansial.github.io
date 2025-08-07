@@ -1,206 +1,229 @@
-import React, { useState } from 'react';
-import { ChevronDown, Code, BarChart, Users, Repeat, PieChart } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Claims Analysis Project</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; @apply bg-gray-50 text-gray-800; }
+        pre { @apply bg-gray-100 rounded-lg p-4 text-sm text-gray-800 overflow-x-auto; }
+        table { @apply w-full text-left table-auto border-collapse; }
+        th, td { @apply px-4 py-2 border border-gray-300; }
+        thead { @apply bg-gray-200 font-bold; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="bg-white shadow-md py-4 mb-8">
+        <nav class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-orange-600 rounded-md p-2 hover:bg-orange-50 transition duration-300">Duraan Olomi</a>
+        </nav>
+    </header>
 
-// This is a portfolio website to showcase a data analytics project.
-// It includes sections for the project overview, business questions,
-// SQL queries, key findings, and a visualization description.
-// The design is clean, professional, and fully responsive using Tailwind CSS.
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-6">Patient Claims Analysis: SQL to PPT</h1>
+        <p class="text-lg text-gray-700 mb-8">This project demonstrates a full data analysis lifecycle, from translating business questions into SQL queries to presenting key insights in a professional format. Using a simulated patient claims dataset, I perform a provider and demographic analysis for a pharmaceutical client, showcasing skills in SQL, Excel, and data visualization in PowerPoint.</p>
 
-const projectDetails = {
-  title: "BC Analytics Skills Portfolio",
-  intro: "This project showcases my ability to translate business questions into technical solutions using SQL, Excel, and PowerPoint. The analysis focuses on a simulated patient claims dataset to identify key insights for a pharmaceutical client.",
-  sections: [
-    {
-      id: "q1",
-      title: "Question 1: Prescription Volume by Specialty",
-      query: `SELECT
-    p.provider_specialty,
-    p.provider_state,
-    COUNT(*) AS prescriptions_count
-FROM
-    prescriptions AS r
-JOIN
-    provider AS p
-    ON r.provider_id = p.id
-WHERE
-    r.drug_name = 'DrugX'
-GROUP BY
-    p.provider_specialty,
-    p.provider_state
-ORDER BY
-    prescriptions_count DESC;`,
-      findings: [
-        "Oncology is the leading specialty in terms of DrugX prescriptions.",
-        "Oncology prescriptions for DrugX are primarily concentrated in CA, TX, and MA.",
-        "Other specialties like Cardiology and Internal Medicine also contribute, but at a lower volume."
-      ],
-      visualizations: [
-        "A bar chart showing the total prescription volume for each specialty.",
-        "A stacked bar chart to break down the total prescription volume by state within each specialty."
-      ],
-      image: "https://placehold.co/600x400/E5E7EB/1F2937?text=Q1:+Oncology+Volume+Visualization",
-      icon: BarChart
-    },
-    {
-      id: "q2",
-      title: "Question 2: Patient Demographics",
-      query: `SELECT
-    p.patient_age,
-    p.patient_gender,
-    COUNT(*) AS patient_count
-FROM
-    patient AS p
-JOIN
-    prescriptions AS r
-    ON p.id = r.patient_id
-WHERE
-    r.drug_name = 'DrugX'
-GROUP BY
-    p.patient_age,
-    p.patient_gender
-ORDER BY
-    patient_count DESC;`,
-      findings: [
-        "The 50-59 age group has the highest prescription volume.",
-        "Male patients consistently account for the majority of prescriptions.",
-        "Female patients are concentrated in older age groups."
-      ],
-      visualizations: [
-        "A pie chart to visualize the male/female gender split.",
-        "A stacked bar chart showing the prescription count by age group, with segments for each gender."
-      ],
-      image: "https://placehold.co/600x400/E5E7EB/1F2937?text=Q2:+Patient+Demographics+Visualization",
-      icon: Users
-    },
-    {
-      id: "q3",
-      title: "Question 3: Cross-Prescribing Analysis",
-      query: `SELECT
-    provider_id,
-    patient_id,
-    GROUP_CONCAT(DISTINCT drug_name) AS prescribed_drugs
-FROM
-    prescriptions
-WHERE
-    drug_name IN ('DrugX', 'DrugY', 'DrugZ')
-GROUP BY
-    provider_id,
-    patient_id
-HAVING
-    COUNT(DISTINCT drug_name) > 1;`,
-      findings: [
-        "An instance of cross-prescribing was identified: Provider 101 prescribed both DrugX and DrugY to Patient 1.",
-        "This type of analysis helps identify providers treating complex patient cases."
-      ],
-      visualizations: [
-        "A simple data table or a small visual highlighting the specific provider and patient involved.",
-        "A network diagram (for larger datasets) to show the connections between patients, providers, and drugs."
-      ],
-      image: "https://placehold.co/600x400/E5E7EB/1F2937?text=Q3:+Cross-Prescribing+Visualization",
-      icon: Repeat
-    }
-  ]
-};
+        <!-- Project Content -->
+        <section class="space-y-8">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Creating Tables</h2>
+                <pre class="mb-4"><code>CREATE TABLE patient (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  patient_name varchar(150) not null,
+  patient_age INT not null,
+  patient_gender CHAR(7),
+  patient_state CHAR(2)
+);</code></pre>
+                <pre class="mb-4"><code>CREATE TABLE provider (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  provider_fname VARCHAR(15) NOT NULL,
+  provider_lname VARCHAR(150) NOT NULL,
+  provider_specialty VARCHAR(100) NOT NULL,
+  provider_state VARCHAR(150) NOT NULL,
+  provider_email VARCHAR(200) UNIQUE
+);</code></pre>
+                <pre class="mb-4"><code>CREATE TABLE claims (
+  id INT PRIMARY KEY NOT NULL,
+  patient_id INT NOT NULL,
+  FOREIGN KEY (patient_id) REFERENCES patients (id),
+  date_of_service DATETIME,
+  procedure_code VARCHAR(15),
+  provider_id INT NOT NULL,
+  FOREIGN KEY (provider_id) REFERENCES providers (id)
+);</code></pre>
+                <pre><code>CREATE TABLE prescriptions (
+  id INT PRIMARY KEY NOT NULL,
+  patient_id INT NOT NULL,
+  FOREIGN KEY (patient_id) REFERENCES patients (id),
+  provider_id INT NOT NULL,
+  FOREIGN KEY (provider_id) REFERENCES providers (id),
+  date_of_dispensing DATETIME NOT NULL,
+  drug_name VARCHAR(255) NOT NULL
+);</code></pre>
+            </div>
 
-// Main App component
-export default function App() {
-  const [openSection, setOpenSection] = useState(null);
+            <div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Preventing Patients without Claims being added</h2>
+                <p class="text-gray-700 mb-4">We wanted to prevent a patient from being inserted without a claim, but my original approach of using a trigger created circular logic. I learned that in real-world scenarios, this business rule is typically handled by the application's logic. Despite the flaw, it was a valuable exercise to understand the practical use of triggers.</p>
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Flawed Trigger Logic</h3>
+                <pre><code>DELIMITER $$
+CREATE TRIGGER enforce_patient_has_claim_before
+BEFORE INSERT ON patients
+FOR EACH ROW
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM claims
+    WHERE patient_id = NEW.id
+  ) THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Error: A patient cannot exist without a claim.';
+  END IF;
+END $$
+DELIMITER ;</code></pre>
+            </div>
+            
+            <div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Inserting Data</h2>
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Patients</h3>
+                <pre><code>INSERT INTO patients (id, patient_name, patient_age, patient_gender, patient_state)
+VALUES
+(1, 'John Smith', 55, 'Male', 'CA'),
+(2, 'Jane Doe', 62, 'Female', 'NY'),
+(3, 'Michael Lee', 48, 'Male', 'CA'),
+(4, 'Sarah Chen', 71, 'Female', 'TX'),
+(5, 'David Jones', 59, 'Male', 'NY'),
+(6, 'Emily Davis', 34, 'Female', 'FL'),
+(7, 'Mark Wilson', 68, 'Male', 'MA'),
+(8, 'Jessica Brown', 51, 'Female', 'CA'),
+(9, 'Chris Evans', 45, 'Male', 'TX');</code></pre>
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Providers</h3>
+                <pre><code>INSERT INTO providers (id, provider_fname,provider_lname, provider_specialty, provider_state, provider_email)
+VALUES
+(101, 'Don', 'Dandy', 'Oncology', 'CA', 'smith@a.com'),
+(102, 'Chad','Chumpal', 'Cardiology', 'NY', 'doe@b.com'),
+(103, 'Larry', 'Lee', 'Oncology', 'TX', 'lee@c.com'),
+(104, 'James','Jones', 'Internal Medicine', 'CA', 'jones@d.com'),
+(105, 'Chelsea','Chen', 'Family Medicine', 'FL', 'chen@e.com'),
+(106, 'Wilma' ,'Williams', 'Oncology', 'MA', 'williams@f.com');</code></pre>
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Claims</h3>
+                <pre><code>INSERT INTO claims (id, patient_id, provider_id, date_of_service, procedure_code)
+VALUES
+(1001, 1, 101, '2025-01-15', '99214'),
+(1002, 2, 102, '2025-01-16', '99214'),
+(1003, 3, 101, '2025-02-01', '99213'),
+(1004, 4, 103, '2025-02-05', '99214'),
+(1005, 5, 102, '2025-02-10', '99214'),
+(1006, 1, 104, '2025-03-01', '99213'),
+(1007, 6, 105, '2025-03-05', '99213'),
+(1008, 7, 106, '2025-03-10', '99214'),
+(1009, 8, 101, '2025-03-15', '99214'),
+(1010, 9, 103, '2025-03-20', '99213');</code></pre>
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Prescriptions</h3>
+                <pre><code>INSERT INTO prescriptions (id, patient_id, provider_id, date_of_dispensing, drug_name)
+VALUES
+(1, 1, 101, '2025-01-15', 'DrugX'),
+(2, 2, 102, '2025-01-16', 'DrugY'),
+(3, 3, 101, '2025-02-01', 'DrugX'),
+(4, 4, 103, '2025-02-05', 'DrugX'),
+(5, 5, 102, '2025-02-10', 'DrugY'),
+(6, 1, 104, '2025-03-01', 'DrugX'),
+(7, 6, 105, '2025-03-05', 'DrugZ'),
+(8, 7, 106, '2025-03-10', 'DrugX'),
+(9, 8, 101, '2025-03-15', 'DrugX'),
+(10, 9, 103, '2025-03-20', 'DrugX');</code></pre>
+            </div>
 
-  const toggleSection = (id) => {
-    setOpenSection(openSection === id ? null : id);
-  };
+            <div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Business Questions & Analysis</h2>
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Prescription Volume by Specialty</h3>
+                <p class="mb-2"><strong>Question:</strong> "Which provider specialties are prescribing the most of DrugX and in which states are they located? Are there any specialties that are under-represented?”</p>
+                <p class="mb-2"><strong>Query:</strong></p>
+                <pre class="mb-2"><code>SELECT provider_specialty, provider_state, COUNT(*) AS prescriptions_count, drug_name
+FROM providers JOIN prescriptions ON prescriptions.provider_id = providers.id
+WHERE drug_name = 'DrugX'
+GROUP BY provider_specialty, provider_state;</code></pre>
+                <p class="mb-2"><strong>Data Output:</strong></p>
+                <table class="mb-4">
+                    <thead><tr><th>provider_specialty</th><th>provider_state</th><th>prescriptions_count</th><th>drug_name</th></tr></thead>
+                    <tbody>
+                        <tr><td>Oncology</td><td>CA</td><td>3</td><td>DrugX</td></tr>
+                        <tr><td>Oncology</td><td>TX</td><td>2</td><td>DrugX</td></tr>
+                        <tr><td>Internal Medicine</td><td>CA</td><td>1</td><td>DrugX</td></tr>
+                        <tr><td>Oncology</td><td>MA</td><td>1</td><td>DrugX</td></tr>
+                    </tbody>
+                </table>
+                <p class="mb-4"><strong>Summary:</strong></p>
+                <p class="text-gray-700">The data shows a hierarchical view, breaking down prescription counts by state within each specialty. Oncology providers across all states make up the majority of prescriptions. We can also note that Internal Medicine is underrepresented, potentially indicating a lack of need in this area or a potential new area for finding patients.</p>
+                <p class="mt-4"><strong>Data Visualization & Presentation:</strong></p>
+            </div>
 
-  const Section = ({ id, title, query, findings, visualizations, image, icon: Icon }) => (
-    <div className="bg-gray-50 border border-gray-200 rounded-xl mb-4 shadow-sm">
-      <button
-        className="w-full flex items-center justify-between p-6 text-xl font-semibold text-gray-800 focus:outline-none"
-        onClick={() => toggleSection(id)}
-      >
-        <span className="flex items-center space-x-3">
-          <Icon className="h-6 w-6 text-orange-500" />
-          <span>{title}</span>
-        </span>
-        <motion.div
-          animate={{ rotate: openSection === id ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <ChevronDown className="h-6 w-6 text-gray-500" />
-        </motion.div>
-      </button>
+            <div>
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Patient Demographics for DrugX</h3>
+                <p class="mb-2"><strong>Question:</strong> "What is the age and gender distribution of patients receiving DrugX? Are there any demographic trends we can identify?”</p>
+                <p class="mb-2"><strong>Query:</strong></p>
+                <pre class="mb-2"><code>SELECT patient_age, patient_gender, prescriptions.drug_name, COUNT(*) AS patient_count
+FROM patients JOIN prescriptions ON patients.id = prescriptions.patient_id
+WHERE drug_name = 'DrugX'
+GROUP BY patient_gender , patient_age
+ORDER BY patient_count DESC;</code></pre>
+                <p class="mb-2"><strong>Data Output:</strong></p>
+                <table class="mb-4">
+                    <thead><tr><th>patient_age</th><th>patient_gender</th><th>drug_name</th><th>patient_count</th></tr></thead>
+                    <tbody>
+                        <tr><td>55</td><td>Male</td><td>DrugX</td><td>2</td></tr>
+                        <tr><td>48</td><td>Male</td><td>DrugX</td><td>1</td></tr>
+                        <tr><td>71</td><td>Female</td><td>DrugX</td><td>1</td></tr>
+                        <tr><td>68</td><td>Male</td><td>DrugX</td><td>1</td></tr>
+                        <tr><td>51</td><td>Female</td><td>DrugX</td><td>1</td></tr>
+                        <tr><td>45</td><td>Male</td><td>DrugX</td><td>1</td></tr>
+                    </tbody>
+                </table>
+                <p class="mb-4"><strong>Summary:</strong></p>
+                <p class="text-gray-700">The data shows a gender distribution of 5 Males : 2 Females. By grouping ages, we can extrapolate that female patients are typically prescribed DrugX at older ages (51, 71), while male patients are prescribed between 45-68.</p>
+                <p class="mt-4"><strong>Data Visualization & Presentation:</strong></p>
+            </div>
 
-      <AnimatePresence>
-        {openSection === id && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="overflow-hidden"
-          >
-            <div className="p-6 border-t border-gray-200">
-              <h3 className="text-lg font-bold text-gray-700 flex items-center space-x-2 mb-3">
-                <Code className="h-5 w-5 text-gray-500" />
-                <span>SQL Query</span>
-              </h3>
-              <pre className="bg-gray-100 rounded-lg p-4 text-sm text-gray-800 overflow-x-auto mb-6">
-                <code>{query}</code>
-              </pre>
+            <div>
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Cross-Prescribing Analysis</h3>
+                <p class="mb-2"><strong>Question:</strong> "Are there any providers who prescribe DrugX and another drug (DrugY or DrugZ) to the same patient? How common is this cross-prescribing?”</p>
+                <p class="mb-2"><strong>Query:</strong></p>
+                <pre class="mb-2"><code>SELECT provider_id, patient_id, GROUP_CONCAT(DISTINCT drug_name) AS prescribed_drugs
+FROM prescriptions
+WHERE drug_name IN ('DrugX' , 'DrugY', 'DrugZ')
+GROUP BY provider_id , patient_id
+HAVING COUNT(DISTINCT drug_name) > 1;</code></pre>
+                <p class="mb-2"><strong>Data Output:</strong></p>
+                <table class="mb-4">
+                    <thead><tr><th>Provider ID</th><th>Patient ID</th><th>Prescribed Drugs</th></tr></thead>
+                    <tbody>
+                        <tr><td>101</td><td>1</td><td>DrugX, DrugY</td></tr>
+                    </tbody>
+                </table>
+                <p class="mb-4"><strong>Summary:</strong></p>
+                <p class="text-gray-700">In our case, a single provider (provider_id = 101) had prescribed both DrugX and DrugY to the same patient (patient_id = 1).</p>
+                <p class="mt-4"><strong>Data Visualization & Presentation:</strong></p>
+            </div>
+        </section>
 
-              <h3 className="text-lg font-bold text-gray-700 flex items-center space-x-2 mb-3">
-                <BarChart className="h-5 w-5 text-gray-500" />
-                <span>Key Findings</span>
-              </h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
-                {findings.map((finding, index) => (
-                  <li key={index}>{finding}</li>
-                ))}
-              </ul>
+        <div class="mt-8">
+            <p class="text-center text-lg font-bold">Presentation Link:</p>
+            <p class="text-center"><a href="https://docs.google.com/presentation/d/1ZzNfWl_zgUIvxtSSANzHm2qHL-pwxHKP/edit?usp=sharing&ouid=114694891968949643726&rtpof=true&sd=true" target="_blank" class="text-orange-600 hover:text-orange-800 underline">View Full Presentation</a></p>
+        </div>
 
-              <h3 className="text-lg font-bold text-gray-700 flex items-center space-x-2 mb-3">
-                <PieChart className="h-5 w-5 text-gray-500" />
-                <span>Visualizations</span>
-              </h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
-                {visualizations.map((viz, index) => (
-                  <li key={index}>{viz}</li>
-                ))}
-              </ul>
+    </main>
 
-              <h3 className="text-lg font-bold text-gray-700 flex items-center space-x-2 mb-3">
-                <PieChart className="h-5 w-5 text-gray-500" />
-                <span>Visualization Image</span>
-              </h3>
-              {image && (
-                <div className="mt-4">
-                  <img src={image} alt={title} className="w-full h-auto rounded-lg shadow-lg" />
-                </div>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
+    <footer class="bg-gray-900 text-white py-6 mt-12 rounded-t-lg shadow-inner">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; <span id="current-year"></span> Duraan Sial. All rights reserved.</p>
+        </div>
+    </footer>
 
-  return (
-    <div className="min-h-screen bg-gray-50 p-6 sm:p-10 font-sans">
-      <div className="max-w-4xl mx-auto">
-        <header className="mb-10 text-center">
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-3 leading-tight">
-            {projectDetails.title}
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {projectDetails.intro}
-          </p>
-        </header>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
 
-        <section>
-          {projectDetails.sections.map((section) => (
-            <Section key={section.id} {...section} />
-          ))}
-        </section>
-      </div>
-    </div>
-  );
-}
